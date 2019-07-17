@@ -21,7 +21,7 @@
               <mu-list-item-action>
                 <mu-avatar>
                   <img
-                    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3024387196,1621670548&fm=27&gp=0.jpg"
+                    src="@/assets/img/toux.jpg"
                     alt
                   />
                 </mu-avatar>
@@ -51,7 +51,7 @@
               <mu-list-item-action>
                 <mu-avatar>
                   <img
-                    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3024387196,1621670548&fm=27&gp=0.jpg"
+                    src="@/assets/img/toux.jpg"
                     alt
                   />
                 </mu-avatar>

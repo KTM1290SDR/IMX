@@ -4,7 +4,7 @@
       <mu-appbar style="width: 100%;" color="teal">
         <div class="head-img" slot="left">
           <img
-            src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3024387196,1621670548&fm=27&gp=0.jpg"
+            src="@/assets/img/toux.jpg"
             alt
           />
         </div>
@@ -34,6 +34,7 @@
         </mu-menu>
       </mu-appbar>
     </div>
+    <div class="top-placeholder"></div>
     <div class="search"></div>
     <div class="main">
       <router-view />
@@ -59,6 +60,7 @@
         </mu-tabs>
       </mu-container>
     </div>
+    <div class="btm-placeholder"></div>
   </div>
 </template>
 <script>
@@ -87,7 +89,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.btm-placeholder{
+  height: 50px;
+}
+.top-placeholder{
+  height: 55px;
+}
 .nav-top {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
   .mu-elevation-4 {
     box-shadow: none;
   }
