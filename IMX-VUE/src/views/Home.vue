@@ -25,6 +25,11 @@
                 <mu-list-item-title>加好友/群</mu-list-item-title>
               </mu-list-item-content>
             </mu-list-item>
+            <mu-list-item button>
+              <mu-list-item-content>
+                <mu-list-item-title>发朋友圈</mu-list-item-title>
+              </mu-list-item-content>
+            </mu-list-item>
           </mu-list>
         </mu-menu>
       </mu-appbar>
@@ -64,7 +69,7 @@ export default {
     };
   },
   created() {
-    console.log(localStorage)
+    console.log(localStorage);
   },
   methods: {
     changeTitle() {

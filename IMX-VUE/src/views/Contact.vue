@@ -1,6 +1,6 @@
 <template>
     <div class="Contact">
-Contact
+        Contact
     </div>
 </template>
 <script>

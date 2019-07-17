@@ -18,7 +18,7 @@
         label-position="right"
       >
         <mu-form-item label="IMX:" prop="account" :rules="accountRules">
-          <mu-auto-complete :data="fruits" v-model="loginForm.account" avatar>
+          <mu-auto-complete :data="fruits" v-model="loginForm.account" avatar >
             <template slot-scope="scope">
               <mu-list-item-action>
                 <mu-avatar>
@@ -62,6 +62,13 @@ export default {
         password: ""
       }
     };
+  },
+  methods: {
+    loginSubmit(){
+       this.$refs.form.validate().then((result) => {
+        console.log('验证是否通过: ', result)
+      });
+    }
   }
 };
 </script>
@@ -79,10 +86,10 @@ body {
 
   .input-group {
     transform: translateY(-20%);
-    .mu-raised-button{
+    .mu-raised-button {
       box-shadow: none;
     }
-    .loginBtn{
+    .loginBtn {
       padding-top: 30px;
     }
   }

@@ -4,11 +4,13 @@ import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 import MuseUI from 'muse-ui';
+import moment from 'moment';
 import 'muse-ui/dist/muse-ui.css';
 import './assets/iconfont/iconfont.css'
 
 Vue.config.productionTip = false;
 Vue.use(MuseUI);
+Vue.prototype.moment = moment;
 
 new Vue({
   router,
