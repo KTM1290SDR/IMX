@@ -70,6 +70,8 @@ export default {
 .mess-list {
   .mess-item {
     border-bottom: 1px solid #eee;
+    background-color: #FFF;
+
   }
 }
 </style>

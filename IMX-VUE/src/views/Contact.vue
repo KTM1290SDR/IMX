@@ -1,5 +1,13 @@
 <template>
-  <div class="Contact">
+  <div class="Contact" ref="Contact" >
+    <div class="btn-fixed">
+      <mu-button fab color="#4caf50" small>
+        <i class="iconfont iconhaoyou"></i>
+      </mu-button>
+      <mu-button fab color="#4caf50" small @click="()=>this.$refs.Contact.scrollTo(0,0)">
+        <i class="iconfont iconhaoyou"></i>
+      </mu-button>
+    </div>
     <div class="img-top">
       <img src="@/assets/img/timg.jpg" alt />
       <div class="myAvatar">
@@ -9,11 +17,13 @@
       </div>
     </div>
     <div class="contact-list">
-      <mu-tabs :value.sync="stateType" color="green" indicator-color="yellow" full-width>
-        <mu-tab>好友动态</mu-tab>
-        <mu-tab>我的动态</mu-tab>
-      </mu-tabs>
-      <div class="friend-state" v-if="stateType === 0">
+      <div class="tab-state"  >
+        <mu-tabs :value.sync="stateType" color="green" indicator-color="yellow" full-width>
+          <mu-tab>好友动态</mu-tab>
+          <mu-tab>我的动态</mu-tab>
+        </mu-tabs>
+      </div>
+      <div class="friend-state" v-if="stateType === 0" ref="tabState">
         <ul>
           <li
             class="state-item"
@@ -86,6 +96,9 @@ export default {
         }
       ]
     };
+  },
+
+  methods: {
   }
 };
 </script>
@@ -93,6 +106,23 @@ export default {
 .Contact {
   height: calc(100vh - 105px);
   overflow: auto;
+  .is-nav-fixed {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    top: 55px;
+  }
+  .btn-fixed {
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    .mu-button:nth-child(1) {
+      margin-bottom: 20px;
+    }
+  }
   .state-item {
     margin-bottom: 20px;
   }

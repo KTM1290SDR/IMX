@@ -97,10 +97,11 @@ export default {
 }
 .nav-top {
     position: fixed;
-    z-index: 1;
+   z-index: 999;
     width: 100%;
   .mu-elevation-4 {
     box-shadow: none;
+
   }
   .head-img {
     border-radius: 50%;
