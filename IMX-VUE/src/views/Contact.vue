@@ -1,5 +1,5 @@
 <template>
-  <div class="Contact" ref="Contact" >
+  <div class="Contact" ref="Contact">
     <div class="btn-fixed">
       <mu-button fab color="#4caf50" small>
         <i class="iconfont iconhaoyou"></i>
@@ -10,14 +10,14 @@
     </div>
     <div class="img-top">
       <img src="@/assets/img/timg.jpg" alt />
-      <div class="myAvatar">
+      <router-link  class="myAvatar" to="/VisitingCard">
         <mu-avatar size="60">
           <img src="@/assets/img/toux.jpg" />
         </mu-avatar>
-      </div>
+      </router-link>
     </div>
     <div class="contact-list">
-      <div class="tab-state"  >
+      <div class="tab-state">
         <mu-tabs :value.sync="stateType" color="green" indicator-color="yellow" full-width>
           <mu-tab>好友动态</mu-tab>
           <mu-tab>我的动态</mu-tab>
@@ -35,8 +35,10 @@
                 :title="friendStateItem.friendName"
                 :sub-title="friendStateItem.stateDate"
               >
-                <mu-avatar slot="avatar">
-                  <img src="@/assets/img/toux.jpg" />
+                <mu-avatar slot="avatar" to="/VisitingCard">
+                  <router-link to="/VisitingCard">
+                    <img src="@/assets/img/toux.jpg" />
+                  </router-link>
                 </mu-avatar>
               </mu-card-header>
               <mu-card-text>{{friendStateItem.stateContent}}</mu-card-text>
@@ -62,7 +64,48 @@
           </li>
         </ul>
       </div>
-      <div class="my-state" v-if="stateType === 1">我的动态</div>
+      <div class="my-state" v-if="stateType === 1" ref="tabState">
+        <ul>
+          <li class="state-item" v-for=" (myStateItem) in myStateList" :key="myStateItem.id">
+            <mu-card style="width: 100%; ">
+              <mu-card-header title="许宇轩" :sub-title="myStateItem.stateDate">
+                <mu-avatar slot="avatar">
+                  <router-link to="/VisitingCard">
+                    <img src="@/assets/img/toux.jpg" />
+                  </router-link>
+                </mu-avatar>
+                <div class="delete-state">
+                  <i class="iconfont iconhaoyou"></i>
+                </div>
+              </mu-card-header>
+              <mu-card-text>{{myStateItem.stateContent}}</mu-card-text>
+              <mu-card-media v-if="myStateItem.stateImgList.length>0">
+                <img src="@/assets/img/timg.jpg" />
+              </mu-card-media>
+              <div class="comment-list" v-if="myStateItem.commentList.length>0">
+                <ul>
+                  <li
+                    class="comment-item"
+                    v-for="(commentItem) in myStateItem.commentList"
+                    :key="commentItem.id"
+                  >
+                    <div class="comment-mian">
+                      <span class="comment-name">{{commentItem.commentName}}:</span>
+                      <span class="comment-content">{{commentItem.commentContent}}</span>
+                    </div>
+                    <span>
+                      <i class="iconfont iconhaoyou"></i>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <mu-card-actions>
+                <div class="comment-btn">我来说两句...</div>
+              </mu-card-actions>
+            </mu-card>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -94,18 +137,60 @@ export default {
           stateImgList: [],
           commentList: []
         }
+      ],
+      myStateList: [
+        {
+          id: 1,
+          stateDate: "2019-7-17 19:15:23",
+          stateContent:
+            "散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！",
+          stateImgList: [{ id: 1, imgSrc: "@/assets/img/timg.jpg" }],
+          commentList: [
+            {
+              id: 1,
+              commentName: "许宇轩",
+              commentContent:
+                "有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车有空一起飙车"
+            },
+            { id: 2, commentName: "欧宇翔", commentContent: "雁山等你" }
+          ]
+        },
+        {
+          id: 2,
+          stateDate: "2019-2-17 11:15:23",
+          stateContent: "今天又是充满希望的一天",
+          stateImgList: [],
+          commentList: []
+        }
       ]
     };
   },
 
-  methods: {
-  }
+  methods: {}
 };
 </script>
 <style lang="less" scoped>
 .Contact {
   height: calc(100vh - 105px);
   overflow: auto;
+  .my-state {
+    .comment-item {
+      padding: 2px 0;
+      display: flex;
+      justify-content: space-between;
+      .comment-mian {
+        padding-right: 10px;
+      }
+    }
+    .delete-state {
+      float: right;
+      height: 40px;
+      width: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
   .is-nav-fixed {
     position: fixed;
     z-index: 1;

@@ -3,12 +3,10 @@
     <div class="nav-top">
       <mu-appbar style="width: 100%;" color="teal">
         <div class="head-img" slot="left">
-          <img
-            src="@/assets/img/toux.jpg"
-            alt
-          />
+          <router-link to="/VisitingCard">
+            <img src="@/assets/img/toux.jpg" alt />
+          </router-link>
         </div>
-
         <div class="nav-hint">{{title}}</div>
         <mu-menu slot="right">
           <mu-button flat>
@@ -54,9 +52,9 @@
           <mu-tab exact to="/Contact">
             <i class="iconfont iconpengyouquan"></i>
           </mu-tab>
-          <mu-tab exact to="/Aspect">
+          <!-- <mu-tab exact to="/Aspect">
             <i class="iconfont iconluntan"></i>
-          </mu-tab>
+          </mu-tab> -->
         </mu-tabs>
       </mu-container>
     </div>
@@ -89,19 +87,18 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.btm-placeholder{
+.btm-placeholder {
   height: 50px;
 }
-.top-placeholder{
+.top-placeholder {
   height: 55px;
 }
 .nav-top {
-    position: fixed;
-   z-index: 999;
-    width: 100%;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
   .mu-elevation-4 {
     box-shadow: none;
-
   }
   .head-img {
     border-radius: 50%;

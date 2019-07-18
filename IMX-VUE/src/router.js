@@ -45,14 +45,11 @@ export default new Router({
       component: () =>
         import("./views/Login.vue")
     },
-    // {
-    //   path: '/Login',
-    //   component: () =>
-    //     import("./views/Login.vue"),
-    //   name: 'Login',
-    //   meta: {
-    //     auth: true
-    //   }
-    // },
+    {
+      path: "/VisitingCard",
+      name: "VisitingCard",
+      component: () =>
+        import("./views/VisitingCard.vue")
+    },
   ]
 });
