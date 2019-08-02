@@ -1,7 +1,7 @@
 <template>
   <div class="VisitingCard">
     <mu-appbar style="width: 100%;" color="teal">
-      <mu-button icon slot="left" @click="()=>this.$router.back(-1)">
+      <mu-button icon slot="left" replace @click="()=>this.$router.back(-1)">
         <i class="iconfont iconhaoyou"></i>
       </mu-button>
       <div class="nav-top">
