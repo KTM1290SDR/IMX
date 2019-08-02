@@ -128,6 +128,9 @@ export default {
   width: 100%;
   .container {
     padding: 0;
+    i{
+      font-size: 20px;
+    }
   }
   .mu-tabs {
     justify-content: space-between;

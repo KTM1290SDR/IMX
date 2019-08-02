@@ -36,34 +36,37 @@
         </div>
       </div>
       <div class="main-info-placeholder"></div>
-       <div class="main-info">
-          <mu-list>
-            <mu-list-item button :ripple="false">
-              <mu-list-item-action>
-                <i class="iconfont iconhaoyou"></i>
-              </mu-list-item-action>
-              <mu-list-item-title>KTM1290SDR</mu-list-item-title>
-            </mu-list-item>
-            <mu-list-item button :ripple="false">
-              <mu-list-item-action>
-                <i class="iconfont iconhaoyou"></i>
-              </mu-list-item-action>
-              <mu-list-item-title>好好的学习，好好的和她在一起好好的学习，好好的和她在一起</mu-list-item-title>
-            </mu-list-item>
-            <mu-list-item button :ripple="false">
-              <mu-list-item-action>
-                <i class="iconfont iconhaoyou"></i>
-              </mu-list-item-action>
-              <mu-list-item-title>1997-11-15</mu-list-item-title>
-            </mu-list-item>
-          </mu-list>
-        </div>
+      <div class="main-info">
+        <mu-list>
+          <mu-list-item button :ripple="false">
+            <mu-list-item-action>
+              <i class="iconfont iconhaoyou"></i>
+            </mu-list-item-action>
+            <mu-list-item-title>KTM1290SDR</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button :ripple="false">
+            <mu-list-item-action>
+              <i class="iconfont iconhaoyou"></i>
+            </mu-list-item-action>
+            <mu-list-item-title>好好的学习，好好的和她在一起好好的学习，好好的和她在一起</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button :ripple="false">
+            <mu-list-item-action>
+              <i class="iconfont iconhaoyou"></i>
+            </mu-list-item-action>
+            <mu-list-item-title>1997-11-15</mu-list-item-title>
+          </mu-list-item>
+        </mu-list>
+      </div>
     </div>
     <div class="card-btm-placeholder"></div>
     <div class="card-btm">
       <mu-button round color="success" v-if="VisitingCardTpye===2">加好友</mu-button>
       <mu-button round color="success" v-else-if="VisitingCardTpye===0">编辑资料</mu-button>
-      <mu-button round color="success" v-else-if="VisitingCardTpye===1">发消息</mu-button>
+    </div>
+    <div class="card-btm" v-if="VisitingCardTpye===1">
+      <mu-button to="/Chat" round color="success">发消息</mu-button>
+      <mu-button round color="red">刪除好友</mu-button>
     </div>
   </div>
 </template>
@@ -72,7 +75,7 @@ export default {
   name: "VisitingCard",
   data() {
     return {
-      VisitingCardTpye: 0
+      VisitingCardTpye: 1
     };
   }
 };
@@ -81,13 +84,13 @@ export default {
 .VisitingCard {
   position: relative;
   height: 100%;
-  .main-info-placeholder{
-      height: 40px;
+  .main-info-placeholder {
+    height: 40px;
   }
-  .main-info{
-      i{
-          font-size: 25px;
-      }
+  .main-info {
+    i {
+      font-size: 25px;
+    }
   }
   .mu-appbar {
     position: fixed;

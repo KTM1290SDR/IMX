@@ -9,6 +9,7 @@
           avatar
           button
           :ripple="false"
+          to="/Chat"
         >
           <mu-list-item-action>
             <mu-avatar>
