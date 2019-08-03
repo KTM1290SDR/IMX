@@ -70,6 +70,9 @@ export default {
   },
   created() {
     console.log(localStorage);
+    this.axios.get("/api/").then(res=>{
+      console.log(res.data)
+    })
   },
   methods: {
     changeTitle() {

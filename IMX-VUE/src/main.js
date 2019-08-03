@@ -6,11 +6,13 @@ import "./registerServiceWorker";
 import MuseUI from 'muse-ui';
 import moment from 'moment';
 import 'muse-ui/dist/muse-ui.css';
-import './assets/iconfont/iconfont.css'
+import './assets/iconfont/iconfont.css';
+import axios from 'axios'
 
 Vue.config.productionTip = false;
 Vue.use(MuseUI);
 Vue.prototype.moment = moment;
+Vue.prototype.axios = axios
 
 new Vue({
   router,
