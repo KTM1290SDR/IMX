@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import encrypt from "@/crypto.js";
 export default {
   name: "Login",
   data() {
@@ -66,7 +67,25 @@ export default {
   methods: {
     loginSubmit(){
        this.$refs.form.validate().then((result) => {
-        console.log('验证是否通过: ', result)
+        if(result){
+          let psdEncrypt = encrypt.Encrypt(this.loginForm.password); //用户密码加密加密
+          let loginFormNEW={
+            account:this.loginForm.account,
+            password:psdEncrypt
+          }
+          this.axios.post("/api/login",loginFormNEW).then(res=>{
+            // console.log(res.data);
+            if (res.data.loginSign==1) {
+              this.$toast.message('用户不存在');
+            }else if(res.data.loginSign==2){
+               this.$toast.message('密码错误');
+            }else {
+              const token =  res.data.loginToken;
+              localStorage.setItem("imxToken",token)
+              this.$router.push("/")
+            }
+          })
+        }
       });
     }
   }

@@ -30,6 +30,12 @@ module.exports = appInfo => {
     app: true,
     agent: false,
   }
+  config.middleware = [ 'jwt' ]
+
+config.jwt = {
+    enable: true,
+    ignore: [ ], // 哪些请求不需要认证
+}
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

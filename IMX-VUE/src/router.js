@@ -3,7 +3,7 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   // mode: "history",
   // base: process.env.BASE_URL,
   routes: [{
@@ -37,7 +37,7 @@ export default new Router({
       path: "/Register",
       name: "Register",
       component: () =>
-        import( "./views/Register.vue")
+        import("./views/Register.vue")
     },
     {
       path: "/Login",
@@ -59,3 +59,14 @@ export default new Router({
     },
   ]
 });
+
+router.beforeEach((to, form, next) => {
+  const isLogin = localStorage.imxToken ? true : false;
+  if (to.path == "/Login"||to.path=="/Register"){
+    next()
+  }else{
+    isLogin?next():next("/Login");
+  }
+})
+
+export default router;

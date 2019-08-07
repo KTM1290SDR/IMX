@@ -17,6 +17,7 @@
           </mu-form-item>
           <mu-form-item label="生日" prop="birthday" help-text="请选择日期">
             <mu-date-input
+              value-format="YYYY-MM-DD"
               container="dialog"
               v-model="registerForm.birthday"
               prop="birthday"
@@ -78,9 +79,21 @@
         @click="()=>{this.openUserAgree=false;this.registerForm.isAgree=true}"
       >同意</mu-button>
     </mu-dialog>
+    <mu-dialog
+      title="注册成功"
+      width="600"
+      max-width="80%"
+      :esc-press-close="false"
+      :overlay-close="false"
+      :open.sync="registerSucc"
+    >
+      你的账号：{{this.newAccount}}
+      <mu-button slot="actions" flat color="primary" to="/Login">确定</mu-button>
+    </mu-dialog>
   </div>
 </template>
 <script>
+import encrypt from "@/crypto.js";
 export default {
   name: "Register",
   data() {
@@ -88,6 +101,8 @@ export default {
     const maxBirthday = new Date(this.moment().format());
     return {
       openUserAgree: false,
+      registerSucc:false,
+      newAccount:null,
       minBirthday,
       maxBirthday,
       usernameRules: [
@@ -122,9 +137,31 @@ export default {
     submit() {
       this.$refs.form.validate().then(result => {
         if (result) {
-          console.log(this.registerForm);
+          let psdEncrypt = encrypt.Encrypt(this.registerForm.password); //用户密码加密加密
+          let constellation = this.getAstro(
+            this.moment(this.registerForm.birthday).format("M"),
+            this.moment(this.registerForm.birthday).format("D")
+          ); //星座计算
+          let registerFormNEW = {
+            username: this.registerForm.username,
+            gender: this.registerForm.gender,
+            birthday: this.registerForm.birthday,
+            password: psdEncrypt,
+            constellation: constellation
+          };
+          console.log(registerFormNEW);
+          this.axios.post("/api/register", registerFormNEW).then(res => {
+            // console.log(res.data);
+            this.newAccount=res.data.registerMsg.useId;
+            this.registerSucc=true;
+          });
         }
       });
+    },
+    getAstro(month, day) {
+      var s = "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
+      var arr = [20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22];
+      return s.substr(month * 2 - (day < arr[month - 1] ? 2 : 0), 2);
     },
     clear() {
       this.$refs.form.clear();
