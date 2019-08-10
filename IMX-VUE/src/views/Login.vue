@@ -85,6 +85,7 @@ export default {
               localStorage.setItem("imxToken",token);
               const decode=jwtDecode(token);
               console.log(decode)
+              this.$socket.emit('chat', decode.data.USER_ID);
               this.$router.push("/")
             }
           })

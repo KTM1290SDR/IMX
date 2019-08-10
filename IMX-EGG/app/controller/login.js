@@ -8,7 +8,7 @@ class LoginController extends Controller {
       ctx
     } = this;
     const parmas = ctx.request.body;
-    console.log(parmas)
+    // console.log(parmas)
     const loginInfo =await ctx.service.login.Login(parmas);
     const loginToken = ctx.helper.loginToken(loginInfo.userInfo, 7200) // token生成
     if (loginInfo==0||loginInfo==1||loginInfo==2) {

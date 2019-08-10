@@ -34,9 +34,10 @@ module.exports = appInfo => {
     init: { }, // passed to engine.io
     namespace: {
       '/': {
-        connectionMiddleware: [],
-        packetMiddleware: [],
+        connectionMiddleware: ['auth'],
+        packetMiddleware: ['filter'],
       },
+      
       '/example': {
         connectionMiddleware: [],
         packetMiddleware: [],

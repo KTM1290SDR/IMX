@@ -21,8 +21,10 @@
     "muse-ui-message": "^0.2.1",
     "muse-ui-toast": "^0.3.0",
     "register-service-worker": "^1.6.2",
+    "socket.io-client": "^2.2.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vue-socket.io": "^2.1.1-a",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

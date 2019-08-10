@@ -70,9 +70,7 @@ export default {
   },
   created() {
     console.log(localStorage);
-    // this.axios.get("/api/").then(res=>{
-    //   console.log(res.data)
-    // })
+    this.sendMessageToServer();
   },
   methods: {
     changeTitle() {
@@ -85,7 +83,10 @@ export default {
       } else {
         this.title = "论坛";
       }
-    }
+    },
+    sendMessageToServer() {
+    this.$socket.emit('chat', '好的');
+  }
   }
 };
 </script>
