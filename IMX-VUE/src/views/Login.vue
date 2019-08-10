@@ -45,6 +45,7 @@
 </template>
 <script>
 import encrypt from "@/crypto.js";
+import jwtDecode from "jwt-decode"
 export default {
   name: "Login",
   data() {
@@ -54,8 +55,8 @@ export default {
       passwordRules: [
         { validate: val => !!val, message: "必须填写密码" },
         {
-          validate: val => val.length >= 3 && val.length <= 10,
-          message: "密码长度大于3小于10"
+          validate: val => val.length >= 6 && val.length <= 10,
+          message: "密码长度大于6小于10"
         }
       ],
       loginForm: {
@@ -81,7 +82,9 @@ export default {
                this.$toast.message('密码错误');
             }else {
               const token =  res.data.loginToken;
-              localStorage.setItem("imxToken",token)
+              localStorage.setItem("imxToken",token);
+              const decode=jwtDecode(token);
+              console.log(decode)
               this.$router.push("/")
             }
           })

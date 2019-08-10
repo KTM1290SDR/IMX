@@ -29,7 +29,20 @@ module.exports = appInfo => {
     },
     app: true,
     agent: false,
-  }
+  };
+  exports.io = {
+    init: { }, // passed to engine.io
+    namespace: {
+      '/': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+      '/example': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+    },
+  };
   config.middleware = [ 'jwt' ]
 
 config.jwt = {
