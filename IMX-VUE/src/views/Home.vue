@@ -18,7 +18,7 @@
                 <mu-list-item-title>创建群聊</mu-list-item-title>
               </mu-list-item-content>
             </mu-list-item>
-            <mu-list-item button>
+            <mu-list-item button @click="addFormAlert=true">
               <mu-list-item-content>
                 <mu-list-item-title>加好友/群</mu-list-item-title>
               </mu-list-item-content>
@@ -54,18 +54,57 @@
           </mu-tab>
           <!-- <mu-tab exact to="/Aspect">
             <i class="iconfont iconluntan"></i>
-          </mu-tab> -->
+          </mu-tab>-->
         </mu-tabs>
       </mu-container>
     </div>
     <div class="btm-placeholder"></div>
+    <mu-dialog
+      title="查找好友/群"
+      width="600"
+      max-width="80%"
+      :esc-press-close="false"
+      :overlay-close="false"
+      :open.sync="addFormAlert"
+    >
+      <div>
+        <mu-form
+          :model="addForm"
+          class="addForm"
+          label-position="left"
+          label-width="100"
+          ref="addForm"
+        >
+          <mu-form-item label="输入IMX号" prop="IMXnumber" :rules="IMXnumberRules">
+            <mu-text-field v-model="addForm.IMXnumber" prop="IMXnumber"></mu-text-field>
+          </mu-form-item>
+          <mu-form-item prop="radio" label="类型">
+            <mu-radio v-model="addForm.IMXtype" value="0" label="用户"></mu-radio>
+            <mu-radio v-model="addForm.IMXtype" value="1" label="群"></mu-radio>
+          </mu-form-item>
+        </mu-form>
+      </div>
+      <mu-button slot="actions" flat color="primary" @click="find()">查找</mu-button>
+      <mu-button slot="actions" flat color="primary" @click=" clear ()">关闭</mu-button>
+    </mu-dialog>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      title: "消息"
+      title: "消息",
+      addForm: {
+        IMXnumber: "",
+        IMXtype: "0"
+      },
+      addFormAlert: false,
+      IMXnumberRules: [
+        {
+          validate: val => val.length >= 6 && val.length <= 10,
+          message: "IMX号必须6-10位"
+        }
+      ]
     };
   },
   created() {
@@ -85,8 +124,30 @@ export default {
       }
     },
     sendMessageToServer() {
-    this.$socket.emit('chat', '好的');
-  }
+      this.$socket.emit("chat", "好的");
+    },
+    clear() {
+      this.addFormAlert = false;
+      this.$refs.addForm.clear();
+      this.addForm = {
+        IMXnumber: " ",
+        IMXtype: "0"
+      };
+    },
+    find() {
+      this.$refs.addForm.validate().then(result => {
+        if (result) {
+          this.axios.post("/api/findUesr", this.addForm).then(res => {
+            console.log(res.data.data)
+            if (res.data.data.hasUesr) {
+              this.$router.push(`/VisitingCard?userId=${res.data.data.IMXnumber}`);
+            } else {
+              this.$toast.message("用户不存在");
+            }
+          });
+        }
+      });
+    }
   }
 };
 </script>
@@ -132,7 +193,7 @@ export default {
   width: 100%;
   .container {
     padding: 0;
-    i{
+    i {
       font-size: 20px;
     }
   }

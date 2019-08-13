@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="index">
-<select id="getIndex">
+<mapper namespace="home">
+<!-- <select id="getIndex">
   SELECT * FROM imx_user_info
+</select> -->
+<select id="findUesr">
+  SELECT USER_ID as IMXnumber 
+  FROM user_info
+  WHERE USER_ID = #{IMXnumber}
 </select>
 </mapper>
