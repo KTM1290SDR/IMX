@@ -82,10 +82,8 @@ export default {
                this.$toast.message('密码错误');
             }else {
               const token =  res.data.loginToken;
-              localStorage.setItem("imxToken",token);
-              const decode=jwtDecode(token);
-              console.log(decode)
-              this.$socket.emit('chat', decode.data.USER_ID);
+              localStorage.setItem("userInfo",token);
+              this.$socket.emit('chat', this.$store.getters.getUserInfo.data.useId);
               this.$router.push("/")
             }
           })

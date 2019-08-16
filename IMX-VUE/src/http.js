@@ -2,8 +2,8 @@ import axios from "axios";
 import router from "./router"
 // 请求拦截
 axios.interceptors.request.use(config=>{
-    if (localStorage.imxToken) {
-        config.headers.Authoriztion = localStorage.imxToken;
+    if (localStorage.userInfo) {
+        config.headers.Authoriztion = localStorage.userInfo;
     }
     return config;
 },error=>{
@@ -16,7 +16,7 @@ axios.interceptors.response.use(response=>{
     const { status } = error.response;
     if (status==401) {
         console.log("token过期，请重新登录！")
-        localStorage.removeItem("imxToken");
+        localStorage.removeItem("userInfo");
         router.push('/Login')
     }
     console.log(error.response.data);

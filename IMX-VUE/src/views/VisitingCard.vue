@@ -23,14 +23,14 @@
             </mu-avatar>
           </div>
           <div>
-            <div class="nick-name">KTM1290SDR</div>
+            <div class="nick-name">{{userInfo.userName}}</div>
             <div>
-              <span>IMX:1669194402</span>
+              <span>IMX:{{userInfo.userId}}</span>
             </div>
             <div>
-              <span>男</span>
+              <span>{{userInfo.userGender}}</span>
               &nbsp;
-              <span>天蝎座</span>
+              <span>{{userInfo.userConstellation}}座</span>
             </div>
           </div>
         </div>
@@ -38,23 +38,23 @@
       <div class="main-info-placeholder"></div>
       <div class="main-info">
         <mu-list>
-          <mu-list-item button :ripple="false">
+          <!-- <mu-list-item button :ripple="false">
             <mu-list-item-action>
               <i class="iconfont iconhaoyou"></i>
             </mu-list-item-action>
             <mu-list-item-title>KTM1290SDR</mu-list-item-title>
+          </mu-list-item>-->
+          <mu-list-item button :ripple="false">
+            <mu-list-item-action>
+              <i class="iconfont iconhaoyou"></i>
+            </mu-list-item-action>
+            <mu-list-item-title>{{userInfo.userSignature}}</mu-list-item-title>
           </mu-list-item>
           <mu-list-item button :ripple="false">
             <mu-list-item-action>
               <i class="iconfont iconhaoyou"></i>
             </mu-list-item-action>
-            <mu-list-item-title>好好的学习，好好的和她在一起好好的学习，好好的和她在一起</mu-list-item-title>
-          </mu-list-item>
-          <mu-list-item button :ripple="false">
-            <mu-list-item-action>
-              <i class="iconfont iconhaoyou"></i>
-            </mu-list-item-action>
-            <mu-list-item-title>1997-11-15</mu-list-item-title>
+            <mu-list-item-title>{{userInfo.userBirthday}}</mu-list-item-title>
           </mu-list-item>
         </mu-list>
       </div>
@@ -75,8 +75,40 @@ export default {
   name: "VisitingCard",
   data() {
     return {
-      VisitingCardTpye: 1
+      userInfo: {
+        userId: "1669194402",
+        userName: "KTM1290SDR",
+        userGender: "男",
+        userBirthday: "1997-11-15",
+        userAvatar: "",
+        userSignature: "好好的学习，好好的工作",
+        userConstellation: "天蝎",
+        userDataImg: "",
+        userCircleImg: ""
+      },
+      VisitingCardTpye: 2 //0:自己,1:已经添加,2:没有添加
     };
+  },
+  mounted() {
+    console.log(this.$route.query);
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      const activeUser = this.$store.getters.getUserInfo.data.userId;
+      const findUser = this.$route.query.userId;
+      if (activeUser === findUser) {
+        this.VisitingCardTpye = 0;
+      } else {
+        this.axios
+          .post("/api/getVisCardInfo", { findUser, activeUser })
+          .then(res => {
+            console.log(res.data);
+            this.VisitingCardTpye = res.data.VisCardRes.VisitingCardTpye;
+            this.userInfo = res.data.VisCardRes.visCardInfo;
+          });
+      }
+    }
   }
 };
 </script>

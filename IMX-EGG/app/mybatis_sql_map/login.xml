@@ -18,7 +18,9 @@ FROM  `USER_INFO`
 WHERE `USER_ID` = #{account};
 </select>
 <select  id="isPswCorrect">
-SELECT * 
+SELECT  USER_ID AS userId , USER_NAME as userName, USER_GENDER as userGender,USER_BIRTHDAY as userBirthday,
+USER_AVATAR as userAvatar ,USER_SIGNATURE as userSignature,USER_CONSTELLATION as userConstellation,
+USER_DATA_IMG as userDataImg,USER_CIRCLE_IMG as userCircleImg
 FROM  `USER_INFO`  
 WHERE `USER_ID` = #{account} 
 AND `USER_PASSWORD` = #{password};

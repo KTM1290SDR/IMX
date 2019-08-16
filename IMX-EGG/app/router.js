@@ -11,6 +11,7 @@ module.exports = app => {
   router.post('/login', controller.login.login);
   router.post('/register', controller.login.register);
   router.post('/findUesr', controller.home.findUesr);
+  router.post('/getVisCardInfo', controller.visitingCard.getVisCardInfo);
   // socket
   app.io.of('/').route('chat', app.io.controllers.chat);
 };

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="visitingCard">
+<select id="isFriend">
+SELECT * 
+FROM USER_FRIEND 
+WHERE USER_FRIEND_ID=#{findUser}
+AND USER_ID = #{activeUser}
+</select>
+<select id="getVisCardInfo">
+SELECT  USER_ID AS userId , USER_NAME as userName, USER_GENDER as userGender,USER_BIRTHDAY as userBirthday,
+USER_AVATAR as userAvatar ,USER_SIGNATURE as userSignature,USER_CONSTELLATION as userConstellation,
+USER_DATA_IMG as userDataImg,USER_CIRCLE_IMG as userCircleImg
+FROM  `USER_INFO`  
+WHERE `USER_ID` = #{findUser} 
+</select>
+</mapper>

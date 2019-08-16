@@ -1,23 +1,24 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import jwtDecode from "jwt-decode";
 
 Vue.use(Vuex);
 
-const key = 'user'
+const key = 'userInfo'
 const isLogin = 'isLogin'
+
 
 export default new Vuex.Store({
   state: {
-    user: null,
+    userInfo: null,
     isLogin: '0'
   },
   getters: {
-    getStorage: function (state) {
-      if (!state.user) {
-        state.user = JSON.parse(localStorage.getItem(key))
-        state.isLogin = localStorage.getItem(isLogin)
+    getUserInfo (state) {
+      if (!state.userInfo) {
+        state.userInfo = jwtDecode(localStorage.getItem(key)) 
       }
-      return state.user
+      return state.userInfo
     }
   },
   mutations: {
@@ -26,11 +27,11 @@ export default new Vuex.Store({
       localStorage.setItem(isLogin, value)
     },
     $_setStorage(state, value) {
-      state.user = value
+      state.userInfo = value
       localStorage.setItem(key, JSON.stringify(value))
     },
     $_removeStorage(state) {
-      state.user = null
+      state.userInfo = null
       localStorage.removeItem(key)
     }
   },

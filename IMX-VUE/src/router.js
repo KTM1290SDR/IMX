@@ -61,7 +61,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, form, next) => {
-  const isLogin = localStorage.imxToken ? true : false;
+  const isLogin = localStorage.userInfo ? true : false;
   if (to.path == "/Login"||to.path=="/Register"){
     next()
   }else{

@@ -146,8 +146,7 @@ export default {
       ],
       newFriendsList:[
         {id:1,name:"许宇轩",verification:"加我为好友吧",isAgree:0},
-        {id:2,name:"徐建华",verification:"上网吗",isAgree:2},
-        {id:3,name:"马子黎",verification:"喜欢你好久了",isAgree:1}
+        {id:2,name:"徐建华",verification:"上网吗",isAgree:2}
       ],
       linkman: 0
     };

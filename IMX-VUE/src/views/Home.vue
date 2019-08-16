@@ -90,6 +90,7 @@
   </div>
 </template>
 <script>
+import jwtDecode from "jwt-decode";
 export default {
   data() {
     return {
@@ -108,7 +109,7 @@ export default {
     };
   },
   created() {
-    console.log(localStorage);
+    console.log(this.$store.getters.getUserInfo.data);
     this.sendMessageToServer();
   },
   methods: {
@@ -134,13 +135,19 @@ export default {
         IMXtype: "0"
       };
     },
+    //查找好友/群
     find() {
       this.$refs.addForm.validate().then(result => {
         if (result) {
           this.axios.post("/api/findUesr", this.addForm).then(res => {
-            console.log(res.data.data)
+            console.log(res.data.data);
             if (res.data.data.hasUesr) {
-              this.$router.push(`/VisitingCard?userId=${res.data.data.IMXnumber}`);
+              this.$router.push({
+                path: "/VisitingCard",
+                query: {
+                  userId: res.data.data.IMXnumber
+                }
+              });
             } else {
               this.$toast.message("用户不存在");
             }
