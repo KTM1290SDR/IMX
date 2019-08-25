@@ -13,6 +13,17 @@ class visitingCardController extends Controller {
       code: "200",
       VisCardRes
     }
+  };
+  async getFriendGroup(){
+    const {
+      ctx
+    } = this;
+    const parmas = ctx.query;
+    const friendGroupList = await ctx.service.visitingCard.getFriendGroup(parmas);
+    ctx.body = {
+      code: "200",
+      friendGroupList
+    }
   }
 }
 

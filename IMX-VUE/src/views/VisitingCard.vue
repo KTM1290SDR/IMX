@@ -15,11 +15,13 @@
     <div class="appbar-placeholder"></div>
     <div class="main">
       <div class="img-top">
-        <img src="@/assets/img/timg (1).jpg" alt />
+        <img v-if="userInfo.userDataImg" :src="userInfo.userDataImg" alt />
+        <img v-else src="@/assets/img/timg (1).jpg" alt />
         <div class="basics-info">
           <div class="avatar">
             <mu-avatar size="80">
-              <img src="@/assets/img/toux.jpg" />
+              <img v-if="userInfo.userAvatar" :src="userInfo.userAvatar" alt />
+              <img v-else src="@/assets/img/toux.jpg" />
             </mu-avatar>
           </div>
           <div>
@@ -38,36 +40,73 @@
       <div class="main-info-placeholder"></div>
       <div class="main-info">
         <mu-list>
-          <!-- <mu-list-item button :ripple="false">
+          <mu-list-item button :ripple="false" v-if="VisitingCardTpye==1">
             <mu-list-item-action>
               <i class="iconfont iconhaoyou"></i>
             </mu-list-item-action>
-            <mu-list-item-title>KTM1290SDR</mu-list-item-title>
-          </mu-list-item>-->
-          <mu-list-item button :ripple="false">
-            <mu-list-item-action>
-              <i class="iconfont iconhaoyou"></i>
-            </mu-list-item-action>
-            <mu-list-item-title>{{userInfo.userSignature}}</mu-list-item-title>
+            <mu-list-item-title>
+              <span>备注：</span>
+              <span v-if="userInfo.userRemarks">{{userInfo.userRemarks}}</span>
+              <span v-else>{{userInfo.userName}}</span>
+            </mu-list-item-title>
           </mu-list-item>
           <mu-list-item button :ripple="false">
             <mu-list-item-action>
               <i class="iconfont iconhaoyou"></i>
             </mu-list-item-action>
-            <mu-list-item-title>{{userInfo.userBirthday}}</mu-list-item-title>
+            <mu-list-item-title>
+              <span>签名：</span>
+              <span v-if="userInfo.userSignature">{{userInfo.userSignature}}</span>
+              <span v-else>请编辑个性签名</span>
+            </mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item button :ripple="false">
+            <mu-list-item-action>
+              <i class="iconfont iconhaoyou"></i>
+            </mu-list-item-action>
+            <mu-list-item-title>生日：{{userInfo.userBirthday}}</mu-list-item-title>
           </mu-list-item>
         </mu-list>
       </div>
     </div>
     <div class="card-btm-placeholder"></div>
     <div class="card-btm">
-      <mu-button round color="success" v-if="VisitingCardTpye===2">加好友</mu-button>
+      <mu-button round color="success" v-if="VisitingCardTpye===2" @click="openVerify()">加好友</mu-button>
       <mu-button round color="success" v-else-if="VisitingCardTpye===0">编辑资料</mu-button>
     </div>
     <div class="card-btm" v-if="VisitingCardTpye===1">
       <mu-button to="/Chat" round color="success">发消息</mu-button>
       <mu-button round color="red">刪除好友</mu-button>
     </div>
+    <mu-dialog
+      title="填写验证信息"
+      width="600"
+      max-width="80%"
+      :esc-press-close="false"
+      :overlay-close="false"
+      :open.sync="openVerifyAlert"
+    >
+      <mu-form :model="verifyForm" class="mu-demo-form" label-position="left" label-width="100">
+        <mu-form-item prop="remark" label="备注">
+          <mu-text-field v-model="verifyForm.remark" :max-length="10"></mu-text-field>
+        </mu-form-item>
+        <mu-form-item prop="message" label="验证消息">
+          <mu-text-field v-model="verifyForm.message" :max-length="10"></mu-text-field>
+        </mu-form-item>
+        <mu-form-item prop="grouping" label="选择分组">
+          <mu-select v-model="verifyForm.grouping" full-width>
+            <mu-option
+              v-for="(item,index) in group"
+              :key="index"
+              :label="item.groupName"
+              :value="item.groupId"
+            ></mu-option>
+          </mu-select>
+        </mu-form-item>
+      </mu-form>
+      <mu-button slot="actions" flat color="primary" @click="submitVerify()">发送</mu-button>
+      <mu-button slot="actions" flat color="primary" @click="openVerifyAlert=false">取消</mu-button>
+    </mu-dialog>
   </div>
 </template>
 <script>
@@ -75,6 +114,7 @@ export default {
   name: "VisitingCard",
   data() {
     return {
+      group: [{ groupId: "0", groupName: "我的好友" }],
       userInfo: {
         userId: "1669194402",
         userName: "KTM1290SDR",
@@ -86,14 +126,20 @@ export default {
         userDataImg: "",
         userCircleImg: ""
       },
+      verifyForm: {
+        remark: "",
+        message: "",
+        grouping: "0"
+      },
+      openVerifyAlert: false,
       VisitingCardTpye: 2 //0:自己,1:已经添加,2:没有添加
     };
   },
   mounted() {
-    console.log(this.$route.query);
     this.getUserInfo();
   },
   methods: {
+    //获取用户信息
     getUserInfo() {
       const activeUser = this.$store.getters.getUserInfo.data.userId;
       const findUser = this.$route.query.userId;
@@ -106,8 +152,26 @@ export default {
             console.log(res.data);
             this.VisitingCardTpye = res.data.VisCardRes.VisitingCardTpye;
             this.userInfo = res.data.VisCardRes.visCardInfo;
+            this.userInfo.userBirthday = this.moment(
+              res.data.VisCardRes.visCardInfo.userBirthday
+            ).format("YYYY-MM-DD");
           });
       }
+    },
+    //打开验证弹出并获取用户分组
+    openVerify() {
+      const userId = this.$store.getters.getUserInfo.data.userId;
+      this.axios.get(`/api/getFriendGroup?userId=${userId}`).then(res => {
+        console.log(res.data.friendGroupList);
+        if (res.data.friendGroupList.length > 0 && this.group.length<=1) {
+          this.group.push(...res.data.friendGroupList);
+        }
+      });
+      this.openVerifyAlert = true;
+    },
+    //提交验证信息
+    submitVerify() {
+      console.log(this.verifyForm);
     }
   }
 };

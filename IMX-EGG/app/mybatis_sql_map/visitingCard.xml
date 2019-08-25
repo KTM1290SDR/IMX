@@ -14,4 +14,18 @@ USER_DATA_IMG as userDataImg,USER_CIRCLE_IMG as userCircleImg
 FROM  `USER_INFO`  
 WHERE `USER_ID` = #{findUser} 
 </select>
+<select id="getVisFriCardInfo">
+SELECT  a.USER_ID AS userId , a.USER_NAME as userName, a.USER_GENDER as userGender,b.FRIEND_REMARKS as userRemarks,a.USER_BIRTHDAY as userBirthday,
+a.USER_AVATAR as userAvatar ,a.USER_SIGNATURE as userSignature,a.USER_CONSTELLATION as userConstellation,
+a.USER_DATA_IMG as userDataImg,a.USER_CIRCLE_IMG as userCircleImg
+FROM  `USER_INFO` a,`user_friend` b
+WHERE a.`USER_ID` = #{findUser} 
+AND a.`USER_ID` =b.`USER_FRIEND_ID`
+AND b.`USER_ID` =#{activeUser}
+</select>
+<select  id="getFriendGroup">
+SELECT GROUP_ID AS groupId,GROUP_NAME as groupName 
+FROM user_friend_group 
+WHERE USER_ID = #{userId}
+</select>
 </mapper>
